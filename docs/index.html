@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f6f8ff" />
+    <meta
+      name="description"
+      content="AI 入门：听懂，会用。给非 IT 朋友的 AI 分享预习网页。"
+    />
+    <title>AI 入门：听懂，会用</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #111827;
+        --muted: #667085;
+        --soft: #f6f8ff;
+        --paper: rgba(255, 255, 255, 0.82);
+        --line: rgba(50, 64, 90, 0.12);
+        --blue: #2b7cff;
+        --mint: #29c69a;
+        --rose: #ff7a9f;
+        --sun: #ffb84d;
+        --lavender: #8b5cf6;
+        --shadow: 0 24px 80px rgba(54, 74, 112, 0.18);
+        --radius: 28px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--ink);
+        font-family:
+          "Avenir Next", "PingFang SC", "Hiragino Sans GB",
+          "Microsoft YaHei", sans-serif;
+        background:
+          radial-gradient(circle at 12% 18%, rgba(255, 184, 77, 0.22), transparent 24rem),
+          radial-gradient(circle at 86% 8%, rgba(139, 92, 246, 0.18), transparent 26rem),
+          radial-gradient(circle at 72% 78%, rgba(43, 124, 255, 0.18), transparent 32rem),
+          linear-gradient(135deg, #fffdf9 0%, #f4f7ff 44%, #eef8ff 100%);
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(17, 24, 39, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(17, 24, 39, 0.035) 1px, transparent 1px);
+        background-size: 42px 42px;
+        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), transparent 68%);
+        z-index: -2;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 4px;
+        width: 0%;
+        z-index: 50;
+        background: linear-gradient(90deg, var(--blue), var(--mint), var(--sun));
+        box-shadow: 0 0 18px rgba(43, 124, 255, 0.5);
+      }
+
+      .nav {
+        position: sticky;
+        top: 14px;
+        z-index: 30;
+        width: min(1120px, calc(100% - 28px));
+        margin: 14px auto 0;
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.74);
+        box-shadow: 0 16px 50px rgba(51, 64, 91, 0.12);
+        backdrop-filter: blur(20px);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+        font-weight: 800;
+      }
+
+      .mascot {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #dff3ff, #fff3c4);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        box-shadow: inset 0 -8px 18px rgba(43, 124, 255, 0.12);
+      }
+
+      .brand span:last-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .pill,
+      .ghost {
+        border: 0;
+        cursor: pointer;
+        border-radius: 999px;
+        padding: 10px 14px;
+        font: inherit;
+        font-weight: 750;
+        transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      }
+
+      .pill {
+        color: white;
+        background: linear-gradient(135deg, #2b7cff, #20c997);
+        box-shadow: 0 10px 24px rgba(43, 124, 255, 0.28);
+      }
+
+      .ghost {
+        color: #263144;
+        background: rgba(255, 255, 255, 0.68);
+        border: 1px solid var(--line);
+      }
+
+      .pill:hover,
+      .ghost:hover {
+        transform: translateY(-2px);
+      }
+
+      .hero {
+        width: min(1180px, calc(100% - 32px));
+        margin: 48px auto 34px;
+        display: grid;
+        grid-template-columns: minmax(0, 1.02fr) minmax(320px, 0.78fr);
+        gap: 28px;
+        align-items: center;
+      }
+
+      .hero-copy {
+        position: relative;
+        padding: clamp(24px, 4vw, 54px);
+        border-radius: 38px;
+        background: rgba(255, 255, 255, 0.66);
+        border: 1px solid rgba(255, 255, 255, 0.92);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .hero-copy::after {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        right: -84px;
+        top: -80px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 122, 159, 0.22), transparent 70%);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        color: #1f4f91;
+        background: #e8f2ff;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      h1 {
+        margin: 20px 0 14px;
+        max-width: 760px;
+        font-size: clamp(46px, 8vw, 96px);
+        line-height: 0.96;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 660px;
+        margin: 0;
+        color: #344054;
+        font-size: clamp(18px, 2.3vw, 25px);
+        line-height: 1.55;
+        font-weight: 650;
+      }
+
+      .hero-actions {
+        margin-top: 28px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .hero-card {
+        position: relative;
+        padding: 20px;
+        border-radius: 36px;
+        background: rgba(255, 255, 255, 0.74);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        box-shadow: var(--shadow);
+        min-height: 420px;
+        overflow: hidden;
+      }
+
+      .hero-card img {
+        width: 100%;
+        height: 100%;
+        min-height: 380px;
+        object-fit: cover;
+        border-radius: 24px;
+        display: block;
+      }
+
+      .download-note {
+        position: absolute;
+        left: 30px;
+        bottom: 30px;
+        width: min(330px, calc(100% - 60px));
+        padding: 16px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.86);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 18px 38px rgba(39, 55, 86, 0.16);
+        backdrop-filter: blur(14px);
+      }
+
+      .download-note strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      .download-note p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .quick {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto 56px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .quick a {
+        min-height: 120px;
+        padding: 18px;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid var(--line);
+        box-shadow: 0 14px 38px rgba(52, 64, 89, 0.11);
+        transition: transform 180ms ease, box-shadow 180ms ease;
+      }
+
+      .quick a:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 24px 55px rgba(52, 64, 89, 0.16);
+      }
+
+      .quick strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 18px;
+      }
+
+      .quick span {
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .chapter-nav {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto 28px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .chapter-nav a {
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.66);
+        border: 1px solid var(--line);
+        font-weight: 750;
+        color: #344054;
+      }
+
+      .slides {
+        width: min(1120px, calc(100% - 28px));
+        margin: 0 auto 80px;
+      }
+
+      .slide {
+        position: relative;
+        margin: 0 0 34px;
+        padding: clamp(10px, 1.4vw, 18px);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 20px 70px rgba(43, 57, 92, 0.14);
+        opacity: 0;
+        transform: translateY(46px) scale(0.985);
+        transition: opacity 620ms ease, transform 620ms cubic-bezier(0.2, 0.8, 0.2, 1);
+        overflow: clip;
+        scroll-margin-top: 104px;
+      }
+
+      .slide.is-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      .slide::before {
+        content: attr(data-index);
+        position: absolute;
+        right: 24px;
+        top: 22px;
+        z-index: 2;
+        padding: 7px 10px;
+        border-radius: 999px;
+        color: rgba(17, 24, 39, 0.72);
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(255, 255, 255, 0.86);
+        font-size: 13px;
+        font-weight: 800;
+        backdrop-filter: blur(12px);
+      }
+
+      .slide img {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        border-radius: calc(var(--radius) - 10px);
+        display: block;
+        transform: translateZ(0);
+        transition: transform 450ms ease, filter 450ms ease;
+      }
+
+      .slide:hover img {
+        transform: scale(1.012);
+        filter: saturate(1.04);
+      }
+
+      .caption {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 6px 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .caption strong {
+        color: var(--ink);
+      }
+
+      .tools {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 35;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .round {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.82);
+        box-shadow: 0 16px 42px rgba(43, 57, 92, 0.18);
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        font: inherit;
+        font-weight: 900;
+        backdrop-filter: blur(18px);
+        transition: transform 180ms ease;
+      }
+
+      .round:hover {
+        transform: translateY(-3px);
+      }
+
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        z-index: 60;
+        transform: translate(-50%, 16px);
+        opacity: 0;
+        pointer-events: none;
+        padding: 12px 16px;
+        border-radius: 999px;
+        color: white;
+        background: rgba(17, 24, 39, 0.88);
+        box-shadow: 0 16px 42px rgba(17, 24, 39, 0.24);
+        transition: opacity 220ms ease, transform 220ms ease;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      .footer {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto 64px;
+        padding: 26px;
+        border-radius: 30px;
+        background: rgba(17, 24, 39, 0.9);
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        align-items: center;
+      }
+
+      .footer p {
+        margin: 4px 0 0;
+        color: rgba(255, 255, 255, 0.72);
+      }
+
+      @media (max-width: 860px) {
+        .nav {
+          top: 8px;
+          border-radius: 24px;
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .nav-actions {
+          width: 100%;
+          overflow-x: auto;
+          padding-bottom: 2px;
+        }
+
+        .hero {
+          grid-template-columns: 1fr;
+          margin-top: 28px;
+        }
+
+        h1 {
+          font-size: clamp(44px, 14vw, 72px);
+        }
+
+        .quick {
+          grid-template-columns: 1fr;
+        }
+
+        .footer {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .tools {
+          right: 12px;
+          bottom: 12px;
+        }
+
+        .round {
+          width: 46px;
+          height: 46px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+
+        .slide {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progress" id="progress"></div>
+
+    <nav class="nav" aria-label="页面导航">
+      <a class="brand" href="#top" aria-label="回到顶部">
+        <span class="mascot">AI</span>
+        <span>AI 入门：听懂，会用</span>
+      </a>
+      <div class="nav-actions">
+        <a class="ghost" href="PREPARE.md">预习清单.md</a>
+        <a class="ghost" href="downloads/agent.md">agent.md</a>
+        <a class="pill" href="downloads/ai-share-v41.pdf" download>下载 PDF</a>
+        <a class="pill" href="downloads/ai-share-v41.pptx" download>下载 PPT</a>
+      </div>
+    </nav>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <span class="eyebrow">给朋友们提前预习</span>
+          <h1 id="hero-title">AI 入门：听懂，会用</h1>
+          <p class="lead">
+            不用先学技术。先快速翻一遍：AI 为什么突然变强、常见黑话是什么意思、普通人怎么把 AI 用到真实事情里。
+          </p>
+          <div class="hero-actions">
+            <a class="pill" href="#slides">开始预习</a>
+            <a class="ghost" href="PREPARE.md">查看提前下载说明</a>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-label="下载提醒">
+          <img src="assets/slides/01-slide-cover.png" alt="AI 入门封面" />
+          <div class="download-note">
+            <strong>先下载，现场更顺</strong>
+            <p>建议提前保存 PDF 或 PPTX。现场网络不稳，也能跟着讲。</p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="quick" aria-label="快速下载">
+        <a href="downloads/ai-share-v41.pdf" download>
+          <strong>PDF 版</strong>
+          <span>手机和平板预习最方便，文件约 52MB。</span>
+        </a>
+        <a href="downloads/ai-share-v41.pptx" download>
+          <strong>PPTX 版</strong>
+          <span>需要完整页面或想做笔记，可以下载这一版。</span>
+        </a>
+        <a href="downloads/agent.md" download>
+          <strong>agent.md</strong>
+          <span>可选阅读：Agent / Playbook / Script 工作流说明。</span>
+        </a>
+      </section>
+
+      <div class="chapter-nav" aria-label="章节跳转">
+        <a href="#slide-04">Part 01 听懂 AI</a>
+        <a href="#slide-13">Part 02 选对工具</a>
+        <a href="#slide-20">Part 03 把 AI 用起来</a>
+        <a href="#slide-29">Q&A / Thanks</a>
+      </div>
+
+      <section class="slides" id="slides" aria-label="预习幻灯片">
+        <!-- Slides are rendered by JavaScript. -->
+      </section>
+    </main>
+
+    <div class="tools" aria-label="快捷工具">
+      <button class="round" id="prevBtn" type="button" aria-label="上一页">↑</button>
+      <button class="round" id="nextBtn" type="button" aria-label="下一页">↓</button>
+      <button class="round" id="topBtn" type="button" aria-label="回顶部">⌂</button>
+    </div>
+
+    <footer class="footer">
+      <div>
+        <strong>预习完不用背概念</strong>
+        <p>记住三件事：省哪段重复劳动、给什么上下文、结果怎么验证。</p>
+      </div>
+      <a class="pill" href="PREPARE.md">打开下载提醒</a>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+      const slides = [
+        ["01-slide-cover.png", "AI 入门：听懂，会用"],
+        ["02-slide-tension.png", "AI 很强，但普通人从哪开始？"],
+        ["03-slide-three-goals.png", "分享的三个目标"],
+        ["04-slide-part-one.png", "Part 01 听懂 AI"],
+        ["05-slide-history-line.png", "AI 不是突然出现的"],
+        ["06-slide-why-now.png", "为什么最近两年突然这么强？"],
+        ["07-slide-how-ai-works.png", "AI 到底怎么工作？"],
+        ["08-slide-jargon-basics.png", "黑话速查 1"],
+        ["09-slide-jargon-reliability.png", "黑话速查 2"],
+        ["10-slide-jargon-connectors.png", "黑话速查 3"],
+        ["11-slide-jargon-practice.png", "黑话速查 4"],
+        ["12-slide-part-one-summary.png", "第一章讲了什么？"],
+        ["13-slide-part-two.png", "Part 02 选对 AI 工具"],
+        ["14-slide-tool-choice.png", "选择工具思路"],
+        ["15-slide-model-assistants.png", "常见工具介绍：大模型助手"],
+        ["16-slide-agent-tools.png", "常见工具介绍：Agent 类"],
+        ["17-slide-tool-extensions.png", "工具周边拓展"],
+        ["18-slide-multimodal-tools.png", "常见工具介绍：多模态工具"],
+        ["19-slide-part-two-summary.png", "怎么选工具？"],
+        ["20-slide-part-three.png", "Part 03 把 AI 用起来"],
+        ["21-slide-marathon-example.png", "想象力例子 1：马拉松报名"],
+        ["22-slide-clone-web-tool.png", "想象力例子 2：反查网页工具"],
+        ["23-slide-vscode-codex.png", "实战工具：VS Code + Codex"],
+        ["24-slide-ai-workflow.png", "AI 使用常规流程"],
+        ["25-slide-live-demo-plan.png", "现场演示怎么定？"],
+        ["26-slide-after-demo-tips.png", "实机结束后的 Tips"],
+        ["27-slide-future-directions.png", "后续方向：自己造工具"],
+        ["28-slide-closing-questions.png", "下次遇到 AI 工具，先问三个问题"],
+        ["29-slide-qa-thanks.png", "Q&A / Thanks"],
+      ];
+
+      const slideRoot = document.querySelector("#slides");
+      const progress = document.querySelector("#progress");
+      const toast = document.querySelector("#toast");
+      const showToast = (text) => {
+        toast.textContent = text;
+        toast.classList.add("show");
+        window.clearTimeout(showToast.timer);
+        showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 1800);
+      };
+
+      slideRoot.innerHTML = slides
+        .map(([file, title], index) => {
+          const n = String(index + 1).padStart(2, "0");
+          return `
+            <article class="slide" id="slide-${n}" data-index="${n}/29">
+              <img
+                src="assets/slides/${file}"
+                alt="${title}"
+                loading="${index < 3 ? "eager" : "lazy"}"
+                decoding="async"
+              />
+              <div class="caption">
+                <strong>${n}. ${title}</strong>
+                <span>点击图片可全屏预览</span>
+              </div>
+            </article>
+          `;
+        })
+        .join("");
+
+      const articles = [...document.querySelectorAll(".slide")];
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) entry.target.classList.add("is-visible");
+          });
+        },
+        { rootMargin: "0px 0px -12% 0px", threshold: 0.12 }
+      );
+
+      articles.forEach((el) => observer.observe(el));
+
+      const updateProgress = () => {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+        progress.style.width = `${Math.max(0, Math.min(100, pct))}%`;
+      };
+
+      const currentIndex = () => {
+        const center = window.scrollY + window.innerHeight * 0.42;
+        let best = 0;
+        let bestDistance = Infinity;
+        articles.forEach((el, index) => {
+          const rect = el.getBoundingClientRect();
+          const top = rect.top + window.scrollY;
+          const distance = Math.abs(top - center);
+          if (distance < bestDistance) {
+            best = index;
+            bestDistance = distance;
+          }
+        });
+        return best;
+      };
+
+      const go = (direction) => {
+        const next = Math.max(0, Math.min(articles.length - 1, currentIndex() + direction));
+        articles[next].scrollIntoView({ behavior: "smooth", block: "start" });
+      };
+
+      document.querySelector("#nextBtn").addEventListener("click", () => go(1));
+      document.querySelector("#prevBtn").addEventListener("click", () => go(-1));
+      document.querySelector("#topBtn").addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      articles.forEach((article) => {
+        const img = article.querySelector("img");
+        img.addEventListener("click", async () => {
+          if (article.requestFullscreen) {
+            await article.requestFullscreen();
+            showToast("按 Esc 退出全屏");
+          }
+        });
+      });
+
+      window.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowDown" || event.key === "PageDown") go(1);
+        if (event.key === "ArrowUp" || event.key === "PageUp") go(-1);
+        if (event.key.toLowerCase() === "h") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      });
+
+      window.addEventListener("scroll", updateProgress, { passive: true });
+      updateProgress();
+      requestAnimationFrame(() => articles.slice(0, 2).forEach((el) => el.classList.add("is-visible")));
+    </script>
+  </body>
+</html>
