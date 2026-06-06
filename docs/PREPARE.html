@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI 分享预习下载清单</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #172033;
+        --muted: #667085;
+        --line: #d9e2f2;
+        --paper: #fbfcff;
+        --soft: #eef5ff;
+        --blue: #2563eb;
+        --green: #0f9f7a;
+        --pink: #ef6aa5;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
+          "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 15% 0%, rgba(37, 99, 235, 0.12), transparent 32rem),
+          linear-gradient(180deg, #ffffff 0%, var(--paper) 100%);
+        line-height: 1.75;
+      }
+
+      main {
+        width: min(880px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 48px 0 72px;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 36px;
+      }
+
+      a {
+        color: var(--blue);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .back,
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 42px;
+        padding: 0 16px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.76);
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .pill {
+        color: #ffffff;
+        border-color: transparent;
+        background: linear-gradient(135deg, var(--blue), var(--green));
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(2rem, 5vw, 4rem);
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 720px;
+        margin: 0 0 28px;
+        color: var(--muted);
+        font-size: 1.08rem;
+      }
+
+      section {
+        margin-top: 24px;
+        padding: 24px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.82);
+        box-shadow: 0 18px 48px rgba(23, 32, 51, 0.08);
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: 1.28rem;
+      }
+
+      ul,
+      ol {
+        margin: 0;
+        padding-left: 1.25rem;
+      }
+
+      li + li {
+        margin-top: 8px;
+      }
+
+      code {
+        padding: 0.15em 0.38em;
+        border-radius: 6px;
+        background: var(--soft);
+        font-family: "SFMono-Regular", Consolas, monospace;
+      }
+
+      .downloads {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .downloads a {
+        display: block;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        text-decoration: none;
+      }
+
+      .downloads strong {
+        display: block;
+        color: var(--ink);
+      }
+
+      .downloads span {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      @media (max-width: 700px) {
+        nav,
+        .downloads {
+          display: grid;
+        }
+
+        main {
+          padding-top: 28px;
+        }
+
+        section {
+          padding: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <nav>
+        <a class="back" href="index.html">返回预习页</a>
+        <a class="pill" href="downloads/ai-share-v41.pdf" download>下载 PDF</a>
+      </nav>
+
+      <h1>AI 分享预习下载清单</h1>
+      <p class="lead">请在分享开始前提前下载或收藏下面几个文件，现场网络不稳定时也能跟上。</p>
+
+      <section>
+        <h2>必下</h2>
+        <ul>
+          <li><code>ai-share-v41.pdf</code>：适合手机、平板、电脑快速预习。</li>
+          <li><code>ai-share-v41.pptx</code>：如果想看完整 PPT 或做笔记，可以下载这一版。</li>
+        </ul>
+        <div class="downloads">
+          <a href="downloads/ai-share-v41.pdf" download>
+            <strong>下载 PDF</strong>
+            <span>手机和平板预习更方便。</span>
+          </a>
+          <a href="downloads/ai-share-v41.pptx" download>
+            <strong>下载 PPTX</strong>
+            <span>适合电脑查看或做笔记。</span>
+          </a>
+        </div>
+      </section>
+
+      <section>
+        <h2>可选</h2>
+        <ul>
+          <li>
+            <a href="downloads/agent.html">Agent 补充材料</a>：给对 AI Agent / Playbook /
+            Script 工作流感兴趣的朋友阅读。不是必读，分享现场会用更通俗的方式讲。
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>建议提前准备</h2>
+        <ul>
+          <li>一个你常用的 AI 工具账号，例如豆包、元宝、Kimi、ChatGPT、Claude、DeepSeek 等。</li>
+          <li>如果想跟着看实战，可以提前安装 VS Code。</li>
+          <li>准备一个你自己想用 AI 解决的小问题：整理文件、做表格、写报告、做网页、做小工具都可以。</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>预习方式</h2>
+        <p>不用逐字读完。建议先快速看三件事：</p>
+        <ol>
+          <li>AI 为什么最近两年突然变强。</li>
+          <li>常见黑话：Token、RAG、Agent、MCP、API、CLI。</li>
+          <li>最后实战部分：AI 怎么从聊天变成帮你做事。</li>
+        </ol>
+      </section>
+    </main>
+  </body>
+</html>

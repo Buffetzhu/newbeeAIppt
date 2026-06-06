@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agent 工作框架补充材料</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #182035;
+        --muted: #667085;
+        --line: #d9e2f2;
+        --soft: #f3f7ff;
+        --blue: #2563eb;
+        --green: #0f9f7a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
+          "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 12% 0%, rgba(15, 159, 122, 0.12), transparent 30rem),
+          linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+        line-height: 1.75;
+      }
+
+      main {
+        width: min(920px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 48px 0 72px;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 36px;
+      }
+
+      a {
+        color: var(--blue);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .back,
+      .download {
+        display: inline-flex;
+        align-items: center;
+        min-height: 42px;
+        padding: 0 16px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.76);
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .download {
+        color: #ffffff;
+        border-color: transparent;
+        background: linear-gradient(135deg, var(--blue), var(--green));
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(2rem, 5vw, 3.8rem);
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 760px;
+        margin: 0 0 28px;
+        color: var(--muted);
+        font-size: 1.06rem;
+      }
+
+      section {
+        margin-top: 22px;
+        padding: 24px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.82);
+        box-shadow: 0 18px 48px rgba(23, 32, 51, 0.08);
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: 1.25rem;
+      }
+
+      ul,
+      ol {
+        margin: 0;
+        padding-left: 1.25rem;
+      }
+
+      li + li {
+        margin-top: 8px;
+      }
+
+      pre {
+        overflow: auto;
+        padding: 18px;
+        border-radius: 8px;
+        background: #101827;
+        color: #e8eefc;
+        line-height: 1.55;
+      }
+
+      code {
+        font-family: "SFMono-Regular", Consolas, monospace;
+      }
+
+      :not(pre) > code {
+        padding: 0.15em 0.38em;
+        border-radius: 6px;
+        background: var(--soft);
+        color: var(--ink);
+      }
+
+      @media (max-width: 700px) {
+        nav {
+          display: grid;
+        }
+
+        main {
+          padding-top: 28px;
+        }
+
+        section {
+          padding: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <nav>
+        <a class="back" href="../index.html">返回预习页</a>
+        <a class="download" href="agent.md" download>下载原始 Markdown</a>
+      </nav>
+
+      <h1>Playbooks & Scripts Agent 工作框架说明</h1>
+      <p class="lead">
+        这份材料是给对 AI Agent、Playbook、Script 工作流感兴趣的朋友准备的补充阅读，不是分享前必读。
+      </p>
+
+      <section>
+        <h2>概述</h2>
+        <p>
+          本项目采用两层框架执行任务：<strong>Playbooks（仿调层）</strong> →
+          <strong>Scripts（执行层）</strong>
+        </p>
+        <ul>
+          <li><strong>Playbooks</strong>：结构化流程定义文件，描述“应当发生什么”，包含执行路径、分支判断标准、调用的脚本等，位于 <code>playbooks/</code> 目录。</li>
+          <li><strong>Scripts</strong>：确定性脚本（sh/py），负责具体操作，位于 <code>scripts/</code> 目录。</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>目录结构建议</h2>
+        <pre><code>项目根目录/
+├── CLAUDE.md         # 本文档
+├── playbooks/        # Playbook 定义 (Markdown)
+├── scripts/          # 确定性执行脚本 (.sh/.py)
+├── src/              # 项目源代码
+├── tests/            # 测试代码
+└── .tmp/             # 临时文件（处理中间产物，不提交）</code></pre>
+      </section>
+
+      <section>
+        <h2>Playbook 编写规范</h2>
+        <p>每个 Playbook 必须包含以下五个章节：</p>
+        <pre><code># Playbook: [名称]
+## 目的
+[执行完成后，什么发生了变化——用结果描述，不用过程描述]
+
+## 前提条件
+[文件、环境变量、依赖、缺啥先报错终止步骤，前报错，不进入步骤]
+
+## 步骤
+1. [脚本调用] `scripts/xxx`，输出什么
+2. [判断] 至于什么条件，可能跳回哪里
+
+## 判断标准
+- [判断入口] 输入内 Y，选 N 退出，理由 [...]
+- （若流程结构性执行写明，否则：“本流程性执行，无需预定义判断标准。”）</code></pre>
+      </section>
+
+      <section>
+        <h2>Script 编写规范</h2>
+        <ul>
+          <li>只做确定性操作，不包含 AI 逻辑。</li>
+          <li>输入输出通过参数和 stdout 传递，exit code 表示成功/失败。</li>
+          <li>失败需按规范修复、验证、记录 Known Issues。</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>错误修复循环</h2>
+        <ol>
+          <li>报告错误。</li>
+          <li>分类错误，定位修复位置（脚本 / Playbook / 环境等）。</li>
+          <li>修复。</li>
+          <li>重新验证。</li>
+          <li>记录 Known Issues。</li>
+        </ol>
+        <p>修复后必须更新文档，避免重复修复。临时文件放 <code>.tmp/</code>，不覆盖或覆盖未知文件。</p>
+      </section>
+
+      <section>
+        <h2>执行任务原则</h2>
+        <ol>
+          <li>查找 <code>playbooks/</code> 目录，寻找当前任务的 Playbook。</li>
+          <li>按 Playbook 步骤执行，未覆盖时参考“项目判断原则”。</li>
+          <li>Playbook 优先，Script 只做确定性操作。</li>
+          <li>没有 Playbook 时，先创建 Playbook，再开始工作。</li>
+          <li>禁止直接修改或模拟 Script 行为。</li>
+          <li>先完善 Playbook，再写 Script，不能反过来。</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>沟通规范</h2>
+        <ul>
+          <li>输出结构化和分步结果，中文 + 中英文变量 / 命令。</li>
+          <li>Playbook 步骤完成后输出结果，继续下一步。</li>
+          <li>Script 执行失败需报错并处理。</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
